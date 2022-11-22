@@ -104,7 +104,7 @@ jobs:
             echo "Running npm ci"
             npm ci
           fi
-          
+
       - run: |
           npx nx workspace-lint
           npx nx format:check
