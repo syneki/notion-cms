@@ -1,5 +1,10 @@
 {
   "name": "@syneki/notion-renderer",
   "version": "0.0.0-development",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/syneki/notion-cms.git",
+    "directory": "packages/notion-cms"
+  }
 }
