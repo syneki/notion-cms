@@ -28,6 +28,13 @@
         "jestConfig": "packages/notion-renderer/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "semantic-release",
+        "cwd": "packages/notion-renderer"
+      }
     }
   },
   "tags": []

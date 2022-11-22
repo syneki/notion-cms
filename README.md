@@ -13,6 +13,7 @@
 <div align="center">
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
+[![Commitizen friendly](https://img.shields.io/badge/Commitizen-Friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 [![License](https://img.shields.io/github/license/syneki/notion-cms?label=License&style=flat-square)](LICENCE.md)
 
 [![Powered by Syneki](https://syneki.s3.eu-west-3.amazonaws.com/logo/badge-flat.svg)](https://syneki.com)
@@ -33,10 +34,10 @@
 This project is currently in pre-release, you can use but some features are lacking and few things will have to change in a near future.
 
 - [x] Query multiple pages from a database
-- [X] Query a single page
-- [X] Transform page content into HTML
-- [X] Ability to extends the renderer
-- [X] Easily map the your page properties
+- [x] Query a single page
+- [x] Transform page content into HTML
+- [x] Ability to extends the renderer
+- [x] Easily map the your page properties
 - [ ] Ability to create custom parsers
 - [ ] Create renderer for all of the Notion base blocks
 - [ ] Handle relation property
@@ -251,12 +252,10 @@ import { faker } from '@faker-js/faker';
 import { AbstractParser } from '@syneki/notion-cms';
 
 class FakeEmailParser extends AbstractPropertyParser<string, 'email', string> {
-
-    parse(data: Property<string, 'email'>): string | null | undefined {
-        const domain = data.email.split('@').at(-1);
-        return `${faker.internet.userName()}@${domain}`;
-    }
-
+  parse(data: Property<string, 'email'>): string | null | undefined {
+    const domain = data.email.split('@').at(-1);
+    return `${faker.internet.userName()}@${domain}`;
+  }
 }
 
 cms.parserManager.setParser('email', FakeEmailParser);
@@ -283,7 +282,6 @@ class CodeBlock extends AbstractBlock<CodeBlockObjectResponse> {
 As you can see we can render Blocks into blocks. In this case a Code Block contains Rich text, we call the `renderer.render` method to render it with the `RichTextRenderer`.
 
 # Contributing
-
 
 # Licence
 
