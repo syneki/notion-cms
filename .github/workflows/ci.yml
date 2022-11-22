@@ -8,13 +8,12 @@ on:
 env:
   HUSKY: 0
 
-
 jobs:
   main:
     runs-on: ubuntu-latest
     defaults:
       run:
-       working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}
     strategy:
       matrix:
         node-version: [16]
@@ -26,10 +25,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
+
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
-  
+
       - name: Detect package manager
         id: package_manager
         run: |
@@ -47,7 +46,7 @@ jobs:
         uses: pnpm/action-setup@v2.2.1
         with:
           version: '${{ matrix.pnpm-version }}'
-          
+
       - name: Print node/npm/yarn/pnpm versions
         id: versions
         run: |
@@ -68,7 +67,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-
-            
+
       - name: Use the node_modules cache if available [pnpm]
         if: steps.package_manager.outputs.name == 'pnpm'
         uses: actions/cache@v2
@@ -77,7 +76,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-
-            
+
       - name: Get yarn cache directory path
         if: steps.package_manager.outputs.name == 'yarn'
         id: yarn-cache-dir-path
@@ -91,7 +90,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-
-            
+
       - name: Install dependencies
         run: |
           if [ "${{ steps.package_manager.outputs.name == 'yarn' }}" == "true" ]; then
