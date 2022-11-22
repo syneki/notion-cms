@@ -14,7 +14,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 [![Commitizen friendly](https://img.shields.io/badge/Commitizen-Friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
-[![License](https://img.shields.io/github/license/syneki/notion-cms?label=License&style=flat-square)](LICENCE.md)
+[![License](https://img.shields.io/github/license/syneki/notion-cms?label=License&style=flat-square)](LICENCE)
 
 [![Powered by Syneki](https://syneki.s3.eu-west-3.amazonaws.com/logo/badge-flat.svg)](https://syneki.com)
 [![Managed with](https://img.shields.io/badge/Managed%20with-NX-blue.svg?style=flat-square&logo=nx)](https://nx.dev/)
