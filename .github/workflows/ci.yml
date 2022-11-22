@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch_depth: 0
+          fetch-depth: 0
       
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
@@ -59,7 +59,7 @@ jobs:
           if [[ $yarn_ver != '' ]]; then echo "Yarn: $yarn_ver"; fi
           if [[ $pnpm_ver != '' ]]; then echo "PNPM: $pnpm_ver"; fi
           echo "::set-output name=node_version::${node_ver:1}"
-          
+
       - name: Use the node_modules cache if available [npm]
         if: steps.package_manager.outputs.name == 'npm'
         uses: actions/cache@v2
