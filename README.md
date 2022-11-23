@@ -34,19 +34,21 @@
 
 # ⚠ Pre-release
 
-This project is currently in pre-release, you can use but some features are lacking and few things will have to change in a near future.
+This project is currently in pre-release, you can use it but some features are lacking and few things will have to change in a near future.
 
 - [x] Query multiple pages from a database
 - [x] Query a single page
 - [x] Transform page content into HTML
 - [x] Ability to extends the renderer
-- [x] Easily map the your page properties
+- [x] Easily map your page properties
 - [x] Ability to create custom parsers
 - [ ] Create renderer for all of the Notion base blocks
 - [ ] Handle relation property
 - [x] Handle page cover
 - [x] Handle file property
 - [ ] Handle rollup property
+
+Do not hesitate to open an issue to provide your feedback, report bugs and to propose new features.
 
 # 🚀 Getting started
 
