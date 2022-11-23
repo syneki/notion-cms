@@ -6,5 +6,8 @@
     "type": "git",
     "url": "https://github.com/syneki/notion-cms.git",
     "directory": "packages/notion-cms"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
