@@ -1,3 +1,10 @@
+# [1.0.0-rc.4](https://github.com/syneki/notion-cms/compare/notion-renderer-v1.0.0-rc.3...notion-renderer-v1.0.0-rc.4) (2022-11-23)
+
+
+### Bug Fixes
+
+* update package.json version ([1991257](https://github.com/syneki/notion-cms/commit/1991257edf2b84388b931ebc03e62febc29d068f))
+
 # [1.0.0-rc.3](https://github.com/syneki/notion-cms/compare/notion-renderer-v1.0.0-rc.2...notion-renderer-v1.0.0-rc.3) (2022-11-23)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@syneki/notion-renderer",
-  "version": "0.0.0-development",
+  "version": "1.0.0-rc.4",
   "type": "commonjs",
   "repository": {
     "type": "git",
