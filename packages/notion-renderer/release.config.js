@@ -7,8 +7,8 @@ module.exports = {
   tagFormat: name + '-v${version}',
   commitPaths: [`${srcRoot}/*`],
   branches: [
-    { name: 'main' },
-    { name: 'dev', channel: 'latest', prerelease: 'pre' },
+    { name: 'main', channel: 'latest', prerelease: 'pre' },
+    { name: 'dev', channel: 'pre/rc', prerelease: 'rc' },
   ],
   plugins: [
     '@semantic-release/commit-analyzer',
