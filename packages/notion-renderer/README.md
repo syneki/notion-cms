@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="300" alt="NotionCMS" src="../../docs/logo.png">
+    <img width="300" alt="NotionCMS" src="docs/logo.png">
 </p>
 
 <div align="center">
@@ -34,40 +34,48 @@
 
 # ⚠ Pre-release
 
-This project is currently in pre-release, you can use but some features are lacking and few things will have to change in a near future.
+This project is currently in pre-release, you can use it but some features are lacking and few things will have to change in a near future.
 
 - [x] Query multiple pages from a database
 - [x] Query a single page
 - [x] Transform page content into HTML
 - [x] Ability to extends the renderer
-- [x] Easily map the your page properties
-- [ ] Ability to create custom parsers
+- [x] Easily map your page properties
+- [x] Ability to create custom parsers
 - [ ] Create renderer for all of the Notion base blocks
 - [ ] Handle relation property
-- [ ] Handle page cover
-- [ ] Handle file property
+- [x] Handle page cover
+- [x] Handle file property
 - [ ] Handle rollup property
 
+Do not hesitate to open an issue to provide your feedback, report bugs and to propose new features.
+
 # 🚀 Getting started
+
+## Install libraries
 
 ```shell
 $ npm install @syneki/notion-cms @syneki/notion-renderer
 $ yarn add @syneki/notion-cms @syneki/notion-renderer
 ```
 
-> :warning: We highly recommend to use a **Static Website Generator** to use NotionCMS. The Notion API is extremely slow, avoid querying it on each visit.
+> ⚠ We highly recommend to use a **Static Website Generator** to use NotionCMS. The Notion API is extremely slow, avoid querying it on each visit.
+
+## Create a database
+
+![My integrations](docs/table.png)
+
+## Query your database
 
 ```typescript
 import { NotionCMS, NotionDatabase } from '@syneki/notion-cms';
-import { NotionRenderer } from '@syneki/notion-renderer';
 
-const renderer = new NotionRenderer();
 const cms = new NotionCMS({
   auth: process.env.NOTION_TOKEN,
   renderer,
 });
 
-const database = new NotionDatabase<PostProps>({
+const database = new NotionDatabase({
   cms,
   databaseId: '<my-database-id>',
 });
@@ -98,7 +106,7 @@ You should then be able to get an **Internal Integration Token**.
 
 > :warning: Make sure that you are giving the correct permissions. If the token is directly accessible from your Frontend it can be a real problem!
 
-![My integrations](../../docs/integration_granular_permissions.gif)
+![My integrations](docs/integration_granular_permissions.gif)
 
 ## Add the integration to your databases
 
@@ -117,7 +125,8 @@ import { NotionCMS } from '@syneki/notion-cms';
 
 const cms = new NotionCMS({
   auth: '<your-authentication-token>', // Your Notion Internal Integration Token
-  renderer: notionRenderer, // The NotionRenderer instance
+  renderer: notionRenderer, // A NotionRenderer instance
+  parser: notionParser, // A NotionParser instance
 });
 ```
 
@@ -148,7 +157,7 @@ The mapping is optionnal, if you do not specify it, the keys will be taken from 
 
 Read more on [how to query your pages](#query).
 
-> :info: You can find the Database ID from the URL on the page.
+> ℹ You can find the Database ID from the URL on the page.
 
 ## `NotionRenderer`
 
@@ -246,22 +255,29 @@ Parsers transform page properties sent by the Notion API.
 
 For example, a `date` property in Notion results in a `string` but we parse it to transform it into a `Date` and make it directly accessible into the final object.
 
-### Create a Parser
-
 In the following examples we replace the first part of each email with fake data.
 
 ```typescript
 import { faker } from '@faker-js/faker';
-import { AbstractParser } from '@syneki/notion-cms';
+import { NotionParser, NotionCMS, PropertyParser } from '@syneki/notion-cms';
 
-class FakeEmailParser extends AbstractPropertyParser<string, 'email', string> {
-  parse(data: Property<string, 'email'>): string | null | undefined {
-    const domain = data.email.split('@').at(-1);
-    return `${faker.internet.userName()}@${domain}`;
-  }
-}
+const fakeEmailParser: PropertyParser<string, string> = (data) => {
+  const domain = data.email.split('@').at(-1);
+  return `${faker.internet.userName()}@${domain}`;
+};
 
-cms.parserManager.setParser('email', FakeEmailParser);
+// Add it through the constructor
+const parser = new NotionParser({
+  propertyParsers: {
+    email: fakeEmailParser,
+  },
+});
+
+// Or with the method addParser
+parser.addParser('email', fakeEmailParser);
+
+// Use it in NotionCMS
+const cms = new NotionCMS({ parser });
 ```
 
 ## Renderers
@@ -271,15 +287,24 @@ Notion does not transform the rich content into HTML. It returns a JSON object w
 You can add custom renderer to override the current Renderers or to handle more blocks.
 
 ```typescript
-class CodeBlock extends AbstractBlock<CodeBlockObjectResponse> {
+import { createBlockRenderer, NotionRenderer } from '@syneki/notion-renderer';
 
-    render(data: CodeBlockObjectResponse, renderer: NotionRenderer); string {
-        return `<code class="lang-${data.code.language}">
-            ${renderer.render(...data.code.rich_text)}
-        </code>`
-    }
+const customParagraphRenderer = createBlockRenderer(
+  'paragraph',
+  (data, renderer) => {
+    return `<p class="custom-paragraph">${renderer.render(
+      ...data.paragraph.rich_text
+    )}</p>`;
+  }
+);
 
-}
+// Add it through the constructor
+const renderer = new NotionRenderer(customParagraphRenderer);
+// Or with the method addBlockRenderer
+renderer.addBlockRenderer(customParagraphRenderer);
+
+// Use it in NotionCMS
+const cms = new NotionCMS({ renderer });
 ```
 
 As you can see we can render Blocks into blocks. In this case a Code Block contains Rich text, we call the `renderer.render` method to render it with the `RichTextRenderer`.
