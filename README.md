@@ -246,22 +246,29 @@ Parsers transform page properties sent by the Notion API.
 
 For example, a `date` property in Notion results in a `string` but we parse it to transform it into a `Date` and make it directly accessible into the final object.
 
-### Create a Parser
-
 In the following examples we replace the first part of each email with fake data.
 
 ```typescript
 import { faker } from '@faker-js/faker';
-import { AbstractParser } from '@syneki/notion-cms';
+import { NotionParser, NotionCMS, PropertyParser } from '@syneki/notion-cms';
 
-class FakeEmailParser extends AbstractPropertyParser<string, 'email', string> {
-  parse(data: Property<string, 'email'>): string | null | undefined {
-    const domain = data.email.split('@').at(-1);
-    return `${faker.internet.userName()}@${domain}`;
-  }
-}
+const fakeEmailParser: PropertyParser<string, string> = (data) => {
+  const domain = data.email.split('@').at(-1);
+  return `${faker.internet.userName()}@${domain}`;
+};
 
-cms.parserManager.setParser('email', FakeEmailParser);
+// Add it through the constructor
+const parser = new NotionParser({
+  propertyParsers: {
+    email: fakeEmailParser,
+  },
+});
+
+// Or with the method addParser
+parser.addParser('email', fakeEmailParser);
+
+// Use it in NotionCMS
+const cms = new NotionCMS({ parser });
 ```
 
 ## Renderers
@@ -276,13 +283,19 @@ import { createBlockRenderer, NotionRenderer } from '@syneki/notion-renderer';
 const customParagraphRenderer = createBlockRenderer(
   'paragraph',
   (data, renderer) => {
-    return `<p>${renderer.render(...data.paragraph.rich_text)}</p>`;
+    return `<p class="custom-paragraph">${renderer.render(
+      ...data.paragraph.rich_text
+    )}</p>`;
   }
 );
 
+// Add it through the constructor
 const renderer = new NotionRenderer(customParagraphRenderer);
-// or
+// Or with the method addBlockRenderer
 renderer.addBlockRenderer(customParagraphRenderer);
+
+// Use it in NotionCMS
+const cms = new NotionCMS({ renderer });
 ```
 
 As you can see we can render Blocks into blocks. In this case a Code Block contains Rich text, we call the `renderer.render` method to render it with the `RichTextRenderer`.
