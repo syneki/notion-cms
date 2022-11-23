@@ -41,33 +41,39 @@ This project is currently in pre-release, you can use but some features are lack
 - [x] Transform page content into HTML
 - [x] Ability to extends the renderer
 - [x] Easily map the your page properties
-- [ ] Ability to create custom parsers
+- [x] Ability to create custom parsers
 - [ ] Create renderer for all of the Notion base blocks
 - [ ] Handle relation property
-- [ ] Handle page cover
-- [ ] Handle file property
+- [x] Handle page cover
+- [x] Handle file property
 - [ ] Handle rollup property
 
 # 🚀 Getting started
+
+## Install libraries
 
 ```shell
 $ npm install @syneki/notion-cms @syneki/notion-renderer
 $ yarn add @syneki/notion-cms @syneki/notion-renderer
 ```
 
-> :warning: We highly recommend to use a **Static Website Generator** to use NotionCMS. The Notion API is extremely slow, avoid querying it on each visit.
+> ⚠ We highly recommend to use a **Static Website Generator** to use NotionCMS. The Notion API is extremely slow, avoid querying it on each visit.
+
+## Create a database
+
+![My integrations](docs/table.png)
+
+## Query your database
 
 ```typescript
 import { NotionCMS, NotionDatabase } from '@syneki/notion-cms';
-import { NotionRenderer } from '@syneki/notion-renderer';
 
-const renderer = new NotionRenderer();
 const cms = new NotionCMS({
   auth: process.env.NOTION_TOKEN,
   renderer,
 });
 
-const database = new NotionDatabase<PostProps>({
+const database = new NotionDatabase({
   cms,
   databaseId: '<my-database-id>',
 });
@@ -117,7 +123,8 @@ import { NotionCMS } from '@syneki/notion-cms';
 
 const cms = new NotionCMS({
   auth: '<your-authentication-token>', // Your Notion Internal Integration Token
-  renderer: notionRenderer, // The NotionRenderer instance
+  renderer: notionRenderer, // A NotionRenderer instance
+  parser: notionParser, // A NotionParser instance
 });
 ```
 
@@ -148,7 +155,7 @@ The mapping is optionnal, if you do not specify it, the keys will be taken from 
 
 Read more on [how to query your pages](#query).
 
-> :info: You can find the Database ID from the URL on the page.
+> ℹ You can find the Database ID from the URL on the page.
 
 ## `NotionRenderer`
 
