@@ -1,3 +1,10 @@
+# [1.0.0-rc.3](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.2...notion-cms-v1.0.0-rc.3) (2022-11-23)
+
+
+### Bug Fixes
+
+* update packages documentation ([3ccbe15](https://github.com/syneki/notion-cms/commit/3ccbe156112a32094638616a8955e33315bf19d9))
+
 # [1.0.0-rc.2](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.1...notion-cms-v1.0.0-rc.2) (2022-11-23)
 
 
