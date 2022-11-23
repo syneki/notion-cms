@@ -32,7 +32,7 @@
     "release": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx semantic-release-plus --extends ./pacages/notion-cms/release.config.js"
+        "command": "npx semantic-release-plus --extends ./packages/notion-cms/release.config.js"
       }
     }
   },
