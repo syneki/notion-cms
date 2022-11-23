@@ -19,6 +19,7 @@
     "@nrwl/linter": "15.2.1",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "15.2.1",
+    "@semantic-release/exec": "^6.0.3",
     "@types/jest": "28.1.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
