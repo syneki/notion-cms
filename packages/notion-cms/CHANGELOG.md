@@ -1,3 +1,10 @@
+# [1.0.0-rc.6](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.5...notion-cms-v1.0.0-rc.6) (2022-11-23)
+
+
+### Features
+
+* **notion-cms:** register filePropertyParser for properties external and file ([fc2ac93](https://github.com/syneki/notion-cms/commit/fc2ac9330d3d1c06fa0517229208573b105ccdd1))
+
 # [1.0.0-rc.5](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.4...notion-cms-v1.0.0-rc.5) (2022-11-23)
 
 
