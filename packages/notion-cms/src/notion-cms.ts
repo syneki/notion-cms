@@ -1,22 +1,21 @@
-import { Client } from "@notionhq/client";
-import { ClientOptions } from "@notionhq/client/build/src/Client";
-import { NotionRenderer } from "@syneki/notion-renderer";
-import { ParserManager } from "./managers/parsers.manager";
+import { Client } from '@notionhq/client';
+import { ClientOptions } from '@notionhq/client/build/src/Client';
+import { NotionRenderer } from '@syneki/notion-renderer';
+import { NotionParser } from './notion-parser';
 
 export type NotionCMSOptions = ClientOptions & {
-    renderer?: NotionRenderer
-}
+  renderer?: NotionRenderer;
+  parser?: NotionParser;
+};
 
 export class NotionCMS {
+  client: Client;
+  renderer: NotionRenderer;
+  parser: NotionParser;
 
-    client: Client
-    renderer?: NotionRenderer
-    parserManager: ParserManager
-
-    constructor(options: NotionCMSOptions) {
-        this.client = new Client(options);
-        this.renderer = options.renderer;
-        this.parserManager = new ParserManager(this);
-    }
-
+  constructor(options: NotionCMSOptions) {
+    this.client = new Client(options);
+    this.renderer = options.renderer ?? new NotionRenderer();
+    this.parser = options.parser ?? new NotionParser();
+  }
 }

@@ -3,10 +3,12 @@ import {
   PartialUserObjectResponse,
   UserObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
+import { NotionCMS } from './notion-cms';
+import { NotionDatabase } from './notion-database';
 
 export type Type<T> = new () => T;
 
-export type Entity<TProps> = {
+export type Entity<TProps extends object = object> = {
   id: string;
   cover?: any; // @TODO
   updatedAt: string;
@@ -17,6 +19,8 @@ export type Entity<TProps> = {
 
 export type ListResult<TEntity> = {
   data: TEntity[];
+  hasMore: boolean;
+  nextCursor: string | null;
 };
 
 export type PropertyMapping = {
@@ -651,14 +655,16 @@ export type DateResponse = {
 export type NotionSelect = SelectPropertyResponse;
 export type NotionMultiSelect = SelectPropertyResponse[];
 export type NotionDate = {
-  start: string;
-  end?: string | null;
+  start: Date;
+  end?: Date | null;
 };
 export type NotionCreatedBy = UserObjectResponse | PartialUserObjectResponse;
 
-export type PropertyTypes = PageObjectResponse['properties'][0]['type'] | string;
+export type PropertyTypes =
+  | PageObjectResponse['properties'][0]['type']
+  | string;
 export type PropertyTimeTypes = 'created_time' | 'last_edited_time';
-export type PropertyRichTextTypes = 'title' | 'rich_text'
+export type PropertyRichTextTypes = 'title' | 'rich_text';
 
 export type Property<T, Type extends PropertyTypes> = { type: Type } & {
   [key in Type]: T | null | undefined;
@@ -695,3 +701,51 @@ export type FormulaProperty = {
   formula: FormulaPropertyResponse;
   id: string;
 };
+
+// COVER
+
+export type CoverProperty =
+  | {
+      type: 'external';
+      external: {
+        url: string;
+      };
+    }
+  | null
+  | {
+      type: 'file';
+      file: {
+        url: string;
+        expiry_time: string;
+      };
+    }
+  | null;
+
+export enum ParserType {
+  PAGE = 'page',
+  PROPERTIES = 'properties',
+}
+
+export type Parser<TData = any, TResult = any> = (
+  data: TData,
+  cms: NotionCMS,
+  database: NotionDatabase
+) => TResult;
+export type PageParser<TProps extends object = object> = Parser<
+  PageObjectResponse,
+  Entity<TProps>
+>;
+export type PropertiesParser<TProps extends object = object> = Parser<
+  PageObjectResponse['properties'],
+  TProps
+>;
+
+export type PropertyV2<TType extends string = string, TData = any> = {
+  [key in TType]: TData;
+} & { type: TType };
+
+export type PropertyParser<TData = any, TResult = any> = Parser<
+  PropertyV2<string, TData>,
+  TResult | null | undefined
+>;
+// export type PropertyParser<TProperty extends PropertyV2, TResult> = PropertyParserFunc<TProperty, TResult> & { type: string }

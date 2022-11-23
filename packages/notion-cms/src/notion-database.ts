@@ -1,10 +1,11 @@
 import {
   BlockObjectResponse,
+  PageObjectResponse,
+  PartialPageObjectResponse,
   QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints';
 import { NotionCMS } from './notion-cms';
-import { PageParser } from './parsers/page.parser';
-import { Entity, EntityMapping, ListResult } from './types';
+import { Entity, EntityMapping, ListResult, ParserType } from './types';
 
 export type NotionDatabaseOptions<TEntityProps> = {
   databaseId: string;
@@ -12,7 +13,7 @@ export type NotionDatabaseOptions<TEntityProps> = {
   mapping: EntityMapping<TEntityProps>;
 };
 
-export class NotionDatabase<TEntityProps extends Record<string, any>> {
+export class NotionDatabase<TEntityProps extends object = object> {
   databaseId: string;
   cms: NotionCMS;
   mapping: EntityMapping<TEntityProps>;
@@ -36,11 +37,16 @@ export class NotionDatabase<TEntityProps extends Record<string, any>> {
     });
 
     const entities = res.results.map((page) =>
-      this.cms.parserManager.parse(PageParser<TEntityProps>, page, this)
+      this.cms.parser.parse<
+        PageObjectResponse | PartialPageObjectResponse,
+        Entity<TEntityProps>
+      >(ParserType.PAGE, page, this)
     );
 
     return {
       data: entities,
+      hasMore: res.has_more,
+      nextCursor: res.next_cursor,
     };
   }
 
@@ -49,7 +55,7 @@ export class NotionDatabase<TEntityProps extends Record<string, any>> {
       page_id: id,
     });
 
-    return this.cms.parserManager.parse(PageParser<TEntityProps>, res, this);
+    return this.cms.parser.parse(ParserType.PAGE, res, this);
   }
 
   async findFirst(

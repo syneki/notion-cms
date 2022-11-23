@@ -1,13 +1,11 @@
-import { NotionCMS } from "../../notion-cms";
-import { NotionDatabase } from "../../notion-database";
-import { FormulaProperty, Property } from "../../types";
-import { PropertyParser } from "../property.parser";
-import { AbstractPropertyParser } from "./abstract-property.parser";
+import { FormulaProperty, PropertyParser } from '../../types';
 
-export class FormulaPropertyParser extends AbstractPropertyParser<FormulaProperty, 'formula', unknown> {
+const formulaPropertyParser: PropertyParser<FormulaProperty, unknown> = (
+  property,
+  cms,
+  database
+) => {
+  return cms.parser.parseProperty(property[property.type], database);
+};
 
-    parse(data: Property<FormulaProperty, 'formula'>, cms: NotionCMS, database: NotionDatabase<any>) {
-        return cms.parserManager.parse(PropertyParser, data.formula, database);
-    }
-    
-}
+export default formulaPropertyParser;
