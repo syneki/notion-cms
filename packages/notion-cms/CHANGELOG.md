@@ -1,3 +1,10 @@
+# [1.0.0-rc.5](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.4...notion-cms-v1.0.0-rc.5) (2022-11-23)
+
+
+### Bug Fixes
+
+* **notion-cms:** remove unused import ([c0beb4c](https://github.com/syneki/notion-cms/commit/c0beb4cc059361a4e304368801b5f05ad82faa02))
+
 # [1.0.0-rc.4](https://github.com/syneki/notion-cms/compare/notion-cms-v1.0.0-rc.3...notion-cms-v1.0.0-rc.4) (2022-11-23)
 
 
