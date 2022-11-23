@@ -3,6 +3,10 @@ const srcRoot = `packages/${name}`;
 
 module.exports = {
   extends: 'release.config.base.js',
+  branches: [
+    { name: 'main' },
+    { name: 'dev', channel: 'pre/rc', prerelease: 'rc' },
+  ],
   pkgRoot: `dist/${srcRoot}`,
   tagFormat: name + '-v${version}',
   commitPaths: [`${srcRoot}/*`],
