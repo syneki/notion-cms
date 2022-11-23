@@ -271,15 +271,18 @@ Notion does not transform the rich content into HTML. It returns a JSON object w
 You can add custom renderer to override the current Renderers or to handle more blocks.
 
 ```typescript
-class CodeBlock extends AbstractBlock<CodeBlockObjectResponse> {
+import { createBlockRenderer, NotionRenderer } from '@syneki/notion-renderer';
 
-    render(data: CodeBlockObjectResponse, renderer: NotionRenderer); string {
-        return `<code class="lang-${data.code.language}">
-            ${renderer.render(...data.code.rich_text)}
-        </code>`
-    }
+const customParagraphRenderer = createBlockRenderer(
+  'paragraph',
+  (data, renderer) => {
+    return `<p>${renderer.render(...data.paragraph.rich_text)}</p>`;
+  }
+);
 
-}
+const renderer = new NotionRenderer(customParagraphRenderer);
+// or
+renderer.addBlockRenderer(customParagraphRenderer);
 ```
 
 As you can see we can render Blocks into blocks. In this case a Code Block contains Rich text, we call the `renderer.render` method to render it with the `RichTextRenderer`.

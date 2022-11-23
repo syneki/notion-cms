@@ -1,26 +1,27 @@
-import { AbstractBlock } from "./blocks/abstract-block"
-import { BLOCKS } from "./globals";
-import { Block } from "./types";
+import { BLOCK_RENDERERS } from './globals';
+import { Block, BlockRenderer, BlockRendererFunc } from './types';
 
 export class NotionRenderer {
+  blocks: Record<string, BlockRendererFunc<any>> = {};
 
-    blocks: Record<string, AbstractBlock> = {}
+  constructor(...renderers: BlockRenderer<any>[]) {
+    [...BLOCK_RENDERERS, ...renderers].map((Block) =>
+      this.addBlockRenderer(Block)
+    );
+  }
 
-    constructor(Blocks: (new () => AbstractBlock)[] = []) {
-        [...BLOCKS, ...Blocks].map(Block => this.addBlock(Block));
-    }
+  addBlockRenderer<T extends Block>(renderer: BlockRenderer<T>) {
+    this.blocks[renderer.type] = renderer;
+  }
 
-    addBlock(Block: (new () => AbstractBlock)) {
-        const block = new Block();
-        this.blocks[block.type] = block;
-    }
-
-    render(...blocks: Block[]) {
-        return blocks.map(block => {
-            const renderer = this.blocks[block.type];
-            if (!renderer) throw new Error(`There is no renderer for block ${block.type}`);    
-            return renderer.render(block, this);
-        }).join('')
-    }
-
+  render(...blocks: Block[]) {
+    return blocks
+      .map((block) => {
+        const renderer = this.blocks[block.type];
+        if (!renderer)
+          throw new Error(`There is no renderer for block ${block.type}`);
+        return renderer(block, this);
+      })
+      .join('');
+  }
 }
