@@ -1,12 +1,14 @@
-import { DateResponse, NotionDate, Property } from "../../types";
-import { AbstractPropertyParser } from "./abstract-property.parser";
+import { DateResponse, NotionDate, PropertyParser } from '../../types';
 
-export class DatePropertyParser extends AbstractPropertyParser<DateResponse, 'date', NotionDate> {
+const datePropertyParser: PropertyParser<DateResponse, NotionDate> = (
+  property
+) => {
+  const value = property[property.type];
 
-    parse(data: Property<DateResponse, 'date'>): NotionDate | null | undefined {
-        return data.date && {
-            start: data.date.start,
-            end: data.date.end
-        }
-    }
-}
+  return {
+    start: new Date(value.start),
+    end: value.end ? new Date(value.end) : null,
+  };
+};
+
+export default datePropertyParser;

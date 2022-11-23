@@ -1,10 +1,7 @@
-import { Property, PropertyTypes } from "../../types";
-import { AbstractPropertyParser } from "./abstract-property.parser";
+import { PropertyParser } from '../../types';
 
-export class SimplePropertyParser<TData, TType extends PropertyTypes> extends AbstractPropertyParser<TData, TType, TData> {
+const simplePropertyParser: PropertyParser = (data) => {
+  return data[data.type];
+};
 
-    parse(data: Property<TData, TType>): TData | null | undefined {
-        return data[data.type]
-    }
-
-}
+export default simplePropertyParser;
