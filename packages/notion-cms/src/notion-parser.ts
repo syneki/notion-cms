@@ -2,6 +2,7 @@ import { NotionDatabase } from './notion-database';
 import pageParser from './parsers/page.parser';
 import propertiesParser from './parsers/properties.parser';
 import datePropertyParser from './parsers/properties/date-property.parser';
+import filePropertyParser from './parsers/properties/file-property.parser';
 import formulaPropertyParser from './parsers/properties/formula-property.parser';
 import richTextPropertyParser from './parsers/properties/rich-text-property.parser';
 import simplePropertyParser from './parsers/properties/simple-property.parser';
@@ -44,6 +45,8 @@ export class NotionParser {
     this.addParser('formula', formulaPropertyParser);
     this.addParser('title', richTextPropertyParser);
     this.addParser('rich_text', richTextPropertyParser);
+    this.addParser('file', filePropertyParser);
+    this.addParser('external', filePropertyParser);
 
     for (const [type, parser] of Object.entries(
       options.propertyParsers ?? {}
