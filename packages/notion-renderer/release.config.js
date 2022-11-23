@@ -21,6 +21,14 @@ module.exports = {
     ],
     '@semantic-release/npm',
     [
+      '@semantic-release/exec',
+      {
+        prepareCmd:
+          `node tools/scripts/update-version.js ${srcRoot}/package.json` +
+          ' ${nextRelease.version}',
+      },
+    ],
+    [
       '@semantic-release/git',
       {
         assets: [`${srcRoot}/package.json`, `${srcRoot}/CHANGELOG.md`],

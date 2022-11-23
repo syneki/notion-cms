@@ -3,13 +3,13 @@ const srcRoot = `packages/${name}`;
 
 module.exports = {
   extends: 'release.config.base.js',
+  pkgRoot: `dist/${srcRoot}`,
+  tagFormat: name + '-v${version}',
+  commitPaths: [`${srcRoot}/*`],
   branches: [
     { name: 'main' },
     { name: 'dev', channel: 'pre/rc', prerelease: 'rc' },
   ],
-  pkgRoot: `dist/${srcRoot}`,
-  tagFormat: name + '-v${version}',
-  commitPaths: [`${srcRoot}/*`],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
@@ -20,6 +20,14 @@ module.exports = {
       },
     ],
     '@semantic-release/npm',
+    [
+      '@semantic-release/exec',
+      {
+        prepareCmd:
+          `node tools/scripts/update-version.js ${srcRoot}/package.json` +
+          ' ${nextRelease.version}',
+      },
+    ],
     [
       '@semantic-release/git',
       {
